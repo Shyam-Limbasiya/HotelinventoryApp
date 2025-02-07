@@ -8,7 +8,7 @@ import { RoomListComponent } from './rooms/room-list/room-list.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RoomsComponent,NgSwitch,CommonModule,RoomListComponent],
+  imports: [RoomsComponent, NgSwitch, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.sass'
 })

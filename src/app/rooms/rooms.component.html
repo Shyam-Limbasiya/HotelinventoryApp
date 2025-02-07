@@ -1,3 +1,18 @@
+<!-- Toast Notification -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="roomToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          Room added successfully! 
+        </div>
+        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+    <!-- Toast Notification End -->  
+
+
+
 <h1 >Welcome to {{hotelName}}</h1>                 
 <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" (click)="toggLe()">
     Total Available Rooms
@@ -5,11 +20,11 @@
 <!-- this is property binding which is valid for any html property -->
  <div [hidden]="hideRooms">
     Number of rooms available: 
-    <div [innerText]="numberOfRooms"></div>
+    <div [innerText]="totalRooms"></div>
  </div>
 
 
-<div *ngIf="RoomList.length > 0">Room List:
+<div *ngIf="RoomList.length >= 0">Room List:
     <table class="table" border="1">
         <tbody>
         <tr>
@@ -32,17 +47,22 @@
             <td>{{room.checkOutTime | date:'mediumDate'}}</td> 
             <td>
                 <button type="button" class="btn btn-primary" (click)="onRoomSelected(room)">
-                    Select
+                    Show
                   </button>
-                  
             </td>
+            <td>
+                <button type="button" class="btn btn-danger" (click)="deleteRoom(room.roomNumber)">
+                  Delete
+                </button>
+              </td>
+              
         </tr>
         </tbody>
     </table>
 
 
     <div *ngIf="selectedRoom" >
-        <h3>Selected Room Details</h3>
+        <h3>Show Room Details</h3>
         <p><strong>Room Number:</strong> {{ selectedRoom.roomNumber }}</p>
         <p><strong>Room Type:</strong> {{ selectedRoom.roomType }}</p>
         <p><strong>Amenities:</strong> {{ selectedRoom.amenities }}</p>
@@ -51,4 +71,42 @@
         <p><strong>Check-out Time:</strong> {{ selectedRoom.checkOutTime | date:'mediumDate' }}</p>
       </div>
     <!-- <app-room-details *ngFor="let room of RoomList" [room]="room"></app-room-details> -->
+    <h3 class="mb-3">Add New Room</h3>
+    <form class="form-group">
+      <div class="row">
+        <div class="col-md-4">
+          <label>Room Number:</label>
+          <input type="number" class="form-control mb-2" placeholder="Room Number" name="roomNumber" [(ngModel)]="newRoom.roomNumber">
+        </div>
+        <div class="col-md-4">
+          <label>Room Type:</label>
+          <input type="text" class="form-control mb-2" placeholder="Room Type" name="roomType" [(ngModel)]="newRoom.roomType">
+        </div>
+        <div class="col-md-4">
+          <label>Price:</label>
+          <input type="number" class="form-control mb-2" placeholder="Price" name="price" [(ngModel)]="newRoom.price">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label>Amenities:</label>
+          <input type="text" class="form-control mb-2" placeholder="Amenities" name="amenities" [(ngModel)]="newRoom.amenities">
+        </div>
+        <div class="col-md-6">
+          <label>Photos:</label>
+          <input type="text" class="form-control mb-2" placeholder="Photos URL" name="photos" [(ngModel)]="newRoom.photos">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label>Check-In Time:</label>
+          <input type="date" class="form-control mb-2" name="checkInTime" [(ngModel)]="newRoom.checkInTime">
+        </div>
+        <div class="col-md-6">
+          <label>Check-Out Time:</label>
+          <input type="date" class="form-control mb-2" name="checkOutTime" [(ngModel)]="newRoom.checkOutTime">
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary mt-3" (click)="addRoom()">Add Room</button>
+    </form>
 </div>

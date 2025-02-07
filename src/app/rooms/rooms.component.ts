@@ -2,32 +2,47 @@ import { Component } from '@angular/core';
 import { Rooms,RoomList } from './rooms';
 import { CommonModule, DatePipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { RoomListComponent } from './room-list/room-list.component';
+import { FormsModule, NgModel } from '@angular/forms';
+import * as bootstrap from 'bootstrap';
+
 
 @Component({
   selector: 'app-rooms',
   standalone: true,
-  imports: [NgIf,NgFor,DatePipe,CommonModule],
+  imports: [NgIf,NgFor,DatePipe,CommonModule,FormsModule],
   templateUrl: './rooms.component.html',
   styleUrl: './rooms.component.sass',
-  preserveWhitespaces: true
+  preserveWhitespaces: true,
+  
 })
 export class RoomsComponent {
   hotelName = 'Yogi';
   numberOfRooms = 10;
   hideRooms = false;
   selectedRoom: RoomList |null = null;
+  totalRooms!: number;
+
+  newRoom: RoomList = {
+    roomNumber: 0,
+    roomType: '',
+    amenities: '',
+    price: 0,
+    photos: '',
+    checkInTime: new Date(),
+    checkOutTime: new Date()
+  };
   
   
   
   toggLe() {
     this.hideRooms = !this.hideRooms;
   }
-  rooms : Rooms ={
-    availableRooms: 5,
-    totalRooms: 10,
-    bookedRooms: 5
-  }
-  RoomList : RoomList[] = [
+  // rooms : Rooms ={
+  //   availableRooms: 5,
+  //   totalRooms: 10,
+  //   bookedRooms: 5
+  // }
+  RoomList: RoomList[] = [
     {
       roomNumber: 101,
       roomType: 'Single',
@@ -65,11 +80,33 @@ export class RoomsComponent {
       checkOutTime: new Date('2021-01-07')
     },
     
-  ]
+  ];
+ 
   onRoomSelected(room: RoomList): void {
-    console.log('Button Clicked!'); 
     this.selectedRoom = room;
-    console.log('Selected room:', this.selectedRoom);  // Log to verify
-    
   }
+  addRoom(): void {
+    this.RoomList.push(this.newRoom);
+    this.showToastMessage("Room added successfully!");
+    this.totalRooms = this.RoomList.length;
+    this.newRoom = {
+      roomNumber:0,
+      roomType: '',
+      amenities: '',
+      price: 0,
+      photos: '',
+      checkInTime: new Date(),
+      checkOutTime: new Date()
+    };
+  }
+  deleteRoom(roomNumber: number): void {
+    const confirmDelete = window.confirm(`Are you sure you want to delete this room: ${roomNumber}?`);
+    this.RoomList = this.RoomList.filter(room => room.roomNumber !== roomNumber);
+    this.totalRooms = this.RoomList.length;  // Update totalRooms count
+  }
+
+  
+  showToastMessage(message: string): void {
+    alert(message);
+  }  
 }
