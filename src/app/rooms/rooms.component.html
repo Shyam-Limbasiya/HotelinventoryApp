@@ -22,6 +22,11 @@
     Number of rooms available: 
     <div [innerText]="totalRooms"></div>
  </div>
+<!-- When event triggrs it will call the function
+it send the event object to the function
+Why use event?
+when user type something in the input box, we need to capture that event and do something with it -->
+ <input type="text" class="form-control mb-3" placeholder="Search Rooms..." (input)="searchRooms($event)">
 
 
 <div *ngIf="RoomList.length >= 0">Room List:
@@ -31,7 +36,14 @@
             <th>Sr. No</th>
             <th>Room Number</th>
             <th>Room Type</th>
-            <th>Room Price</th>
+            <th>
+                Room Price
+                <span (click)="sortByPrice()" style="cursor: pointer;">
+                  {{ sortAscending ? '🔼' : '🔽' }}
+                </span>
+              </th>
+              
+              
             <th>Room Amenities</th>
             <th>Check In Time</th>
             <th>Check Out Time</th>
